@@ -1,18 +1,14 @@
 package FinalProject;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class SetupAPI {
-	static String responseStr;
-	public static void fetchAPI() {
+	
+	public static String fetchAPI() {
+		String responseStr = null;
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
 					.uri(URI.create("https://game-of-thrones1.p.rapidapi.com/Characters"))
@@ -22,17 +18,13 @@ public class SetupAPI {
 			HttpResponse<String> response = HttpClient.newHttpClient().send(request,
 					HttpResponse.BodyHandlers.ofString());
 			responseStr=response.body();
-			System.out.println(response.body());
+			System.out.println("Response Status "+response.statusCode());
 			
-			//PrintWriter out = new PrintWriter(new FileWriter("response.json", true));
-			//out.println(response.body());
-			//out.close();
-			JSONArray jArray = new JSONArray(responseStr);
-			System.out.println(jArray.length());
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+		return responseStr;
 	}
 
 }
