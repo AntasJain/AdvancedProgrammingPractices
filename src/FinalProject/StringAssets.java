@@ -11,4 +11,6 @@ public class StringAssets {
 										"TITLE TEXT NOT NULL,"+
 										"FAMILY TEXT NOT NULL);";
 	static String SELECT_ALL = "Select * FROM "+TABLE_NAME+";";
+	static String UPDATE_STATEMENT = "UPDATE "+TABLE_NAME+" SET ";
+	static String WHERE_CLAUSE = " WHERE ";
 }

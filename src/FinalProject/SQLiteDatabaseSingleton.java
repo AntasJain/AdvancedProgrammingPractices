@@ -70,6 +70,33 @@ public class SQLiteDatabaseSingleton {
 			System.out.println(e.getMessage());
 		}
 	}
+	public void update(String toBeChanged, String newData, String criteria, String oldData) {
+		String query = StringAssets.UPDATE_STATEMENT+toBeChanged+" = ";
+		try {
+			if(toBeChanged.equalsIgnoreCase("ID")){
+				int querynewId = Integer.valueOf(newData);
+				query+=querynewId;
+			}else {
+				query+="\""+newData+"\"";
+			}
+			query+=StringAssets.WHERE_CLAUSE+criteria+" = ";
+			
+			if(criteria.equalsIgnoreCase("ID")) {
+				int queryOldData = Integer.valueOf(oldData);
+				query+=queryOldData+";";
+			}
+			else {
+				query+="\""+oldData+"\""+";";
+			}
+			System.out.println(query);
+			update= conn.prepareStatement(query);
+			int updated = update.executeUpdate();
+			System.out.println("Updated "+updated+" Row(s).");
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	public List<Characters> selectAllStatement(){
 		List<Characters> listRes = new ArrayList<>();
 		try {
@@ -77,7 +104,7 @@ public class SQLiteDatabaseSingleton {
 			select=conn.prepareStatement(StringAssets.SELECT_ALL);
 			ResultSet rs = select.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getInt("ID")+"\t"+rs.getString("FIRSTNAME")+"\t"+rs.getString("LASTNAME")+"\t"+rs.getString("TITLE")+"\t"+rs.getString("FAMILY"));
+				//System.out.println(rs.getInt("ID")+"\t"+rs.getString("FIRSTNAME")+"\t"+rs.getString("LASTNAME")+"\t"+rs.getString("TITLE")+"\t"+rs.getString("FAMILY"));
 				Characters ch = new Characters(rs.getInt("ID"),rs.getString("FIRSTNAME"),rs.getString("LASTNAME"),rs.getString("TITLE"),rs.getString("FAMILY"));
 				listRes.add(ch);
 			}

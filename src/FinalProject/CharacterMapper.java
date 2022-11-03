@@ -1,9 +1,11 @@
 package FinalProject;
 
+import java.util.List;
+
 public interface CharacterMapper {
 	public void INSERT(Characters character);
 	public void DELETE(Characters character);
-	public void UPDATE(Characters character);
-	public void SELECT();
+	public void UPDATE(String setWhat, String whatValue, String whereWhat, String criteriaWhat);
+	public List<Characters> SELECT();
 	
 }
