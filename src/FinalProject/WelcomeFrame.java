@@ -1,6 +1,5 @@
 package FinalProject;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,24 +17,7 @@ public class WelcomeFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WelcomeFrame frame = new WelcomeFrame();
-					frame.setResizable(false);
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public WelcomeFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -52,10 +34,17 @@ public class WelcomeFrame extends JFrame {
 		JButton btnNewButton = new JButton("Initiate Connection");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				startDB();
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(134, 192, 164, 31);
 		contentPane.add(btnNewButton);
 		
+	}
+	
+	public void startDB() {
+		TablesFrame tf = new TablesFrame();
+		tf.init();
 	}
 }

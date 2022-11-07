@@ -1,6 +1,6 @@
 package FinalProject;
 
-import java.io.File;
+
 import java.util.List;
 
 
@@ -37,11 +37,15 @@ public class CharacterMapperImpl implements CharacterMapper {
 		db.update(what, newVal, whereClauseVal, oldVal);
 	}
 
-	@Override
-	public List<Characters> SELECT() {
+	public Characters[] SELECT() {
 		List<Characters> list = db.selectAllStatement();
+		Characters li[] =new Characters[list.size()];
+		int x =0;
+		for(Characters i:list) {
+			li[x++]=i;
+		}
 		System.out.println(list);
-		return list;
+		return li;
 	}
 	public void init(){
 		JSONArray jsonArray;

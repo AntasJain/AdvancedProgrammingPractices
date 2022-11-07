@@ -30,7 +30,7 @@ public class TablesFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public void init() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -66,9 +66,17 @@ public class TablesFrame extends JFrame {
 		
 
 		String columnNames[]= {"ID","FIRSTNAME","LASTNAME","TITLE","FAMILY"};
-		String data[][] = {
-				{"1","Jon","Snow","King In The North","Targaryn"},{"2","Danaeryn","Targaryn","The Dragon Queen","Targaryn"}
-		};
+		CharacterMapperImpl impl = CharacterMapperImpl.getInstance();
+		Characters[] obj= impl.SELECT();
+		Object data[][] = new Object[obj.length][5];
+		for(int i =0;i<obj.length;i++) {
+			data[i][0]=obj[i].getId();
+			data[i][1]=obj[i].getFIRSTNAME();
+			data[i][2]=obj[i].getLASTNAME();
+			data[i][3]=obj[i].getTITLE();
+			data[i][4]=obj[i].getFAMILY();
+		}
+		
 		table = new JTable(data, columnNames) {
 	         private static final long serialVersionUID = 1L;
 
