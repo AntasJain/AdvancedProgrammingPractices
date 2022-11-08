@@ -13,7 +13,7 @@ public class SQLiteDatabaseSingleton {
 	
 	Connection conn;
 	Statement stmt;
-	PreparedStatement insert,delete,update,create,select;
+	PreparedStatement insert,delete,update,create,select,execute;
 	private static SQLiteDatabaseSingleton singleton;
 	
 	private SQLiteDatabaseSingleton() {
@@ -71,6 +71,7 @@ public class SQLiteDatabaseSingleton {
 				delete.setString(1, value);
 			}
 			else if("LASTNAME".equals(cols)) {
+				
 				delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_LASTNAME);
 				delete.setString(1, value);
 			}
@@ -108,6 +109,7 @@ public class SQLiteDatabaseSingleton {
 				query+="\""+oldData+"\""+";";
 			}
 			System.out.println(query);
+			System.out.println(criteria);
 			update= conn.prepareStatement(query);
 			int updated = update.executeUpdate();
 			System.out.println("Updated "+updated+" Row(s).");
@@ -115,6 +117,21 @@ public class SQLiteDatabaseSingleton {
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	public List<Characters> executeQuery(String qry) {
+		List<Characters> listRes = new ArrayList<>();
+		try {
+			execute = conn.prepareStatement(qry);
+			ResultSet rs = execute.executeQuery();
+			while(rs.next()) {
+				Characters ch = new Characters(rs.getInt("ID"),rs.getString("FIRSTNAME"),rs.getString("LASTNAME"),rs.getString("TITLE"),rs.getString("FAMILY"));
+				listRes.add(ch);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return listRes;
+		
 	}
 	public List<Characters> selectAllStatement(){
 		List<Characters> listRes = new ArrayList<>();

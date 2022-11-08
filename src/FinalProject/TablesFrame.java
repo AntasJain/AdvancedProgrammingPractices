@@ -17,9 +17,12 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class TablesFrame extends JFrame {
@@ -40,6 +43,13 @@ public class TablesFrame extends JFrame {
 				    frame.setLocation(screenSize.width/2-frame.getSize().width/2, screenSize.height/2-frame.getSize().height/2);
 				    frame.setResizable(false);
 					frame.setVisible(true);
+					frame.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent e) {
+							impl.closeConnection();
+							System.out.println("DB Connection Closed!");
+							System.exit(0);
+						}
+					});
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,6 +61,7 @@ public class TablesFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public TablesFrame() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -76,19 +87,20 @@ public class TablesFrame extends JFrame {
 				launchInsertDialog();
 			}
 		});
-		btnNewButton.setBounds(420, 620, 117, 29);
+		btnNewButton.setBounds(470, 620, 117, 29);
 		contentPane.add(btnNewButton);
 		
 		JButton btnUpdate = new JButton("UPDATE");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				launchUpdateDialog();
 			}
 		});
-		btnUpdate.setBounds(550, 620, 117, 29);
+		btnUpdate.setBounds(600, 620, 117, 29);
 		contentPane.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("DELETE");
-		btnDelete.setBounds(680, 620, 117, 29);
+		btnDelete.setBounds(730, 620, 117, 29);
 		contentPane.add(btnDelete);
 		btnDelete.addActionListener(new ActionListener() {
 			
@@ -99,10 +111,73 @@ public class TablesFrame extends JFrame {
 			}
 		});
 		
-		JButton btnNewButton_2_1 = new JButton("SELECT");
-		btnNewButton_2_1.setBounds(810, 620, 117, 29);
-		contentPane.add(btnNewButton_2_1);
+//		JButton btnNewButton_2_1 = new JButton("SELECT");
+//		btnNewButton_2_1.setBounds(810, 620, 117, 29);
+//		contentPane.add(btnNewButton_2_1);
+		JTextArea queryArea = new JTextArea("SELECT * FROM CHARACTERS; ");
+		queryArea.setBounds(400, 670, 550, 35);
+		contentPane.add(queryArea);
+		JButton executeQuery = new JButton("EXECUTE");
+		executeQuery.setBounds(615, 710, 117, 29);
+		contentPane.add(executeQuery);
+		executeQuery.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				table.setVisible(false);
+				sp.remove(table);
+				contentPane.remove(sp);
+				setTableData(impl.EXECUTE(queryArea.getText().toString()));
+			}
+		});
 	}
+	protected void launchUpdateDialog() {
+		JDialog d = new JDialog(this,"Update Data!");
+		d.setResizable(false);
+		d.setLayout( new GridLayout(5,4));
+		String cats[] = {"ID","FIRSTNAME","LASTNAME","TITLE","FAMILY"};
+		JLabel l1 = new JLabel("SET");
+		d.add(l1);
+		JComboBox<String> categories = new JComboBox<String>(cats);
+        d.add(categories);
+        JLabel l3 = new JLabel("=");
+        d.add(l3);
+        JTextField v1 = new JTextField();
+        d.add(v1);
+        JLabel l2 = new JLabel("WHERE");
+        d.add(l2);
+        JComboBox<String> WHAT = new JComboBox<String>(cats);
+        d.add(WHAT);
+        JLabel l4 = new JLabel("=");
+        d.add(l4);
+        JTextField v = new JTextField();
+        v.setSize(40, 20);
+        d.add(v);
+        JButton btnUpdates = new JButton("Update");
+        btnUpdates.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String what = categories.getItemAt(categories.getSelectedIndex());
+				String toWHat = v1.getText().toString();
+				String whereWhat = WHAT.getItemAt(WHAT.getSelectedIndex());
+				String isWhat = v.getText().toString();
+				impl.UPDATE(what, toWHat, whereWhat, isWhat);
+				impl.SELECT();
+				table.setVisible(false);
+				sp.remove(table);
+				contentPane.remove(sp);
+				setTableData(impl.SELECT());
+				d.dispose();
+			}
+		});
+        d.add(btnUpdates);
+        d.setSize(500,250);    
+        d.setVisible(true);  
+		
+	}
+
 	public void setTableData(Characters[] obj) {
 
 		String columnNames[]= {"ID","FIRSTNAME","LASTNAME","TITLE","FAMILY"};
@@ -149,9 +224,6 @@ public class TablesFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//int row = Integer.valueOf(value.getText().toString())-1;
-//				Characters characters=impl.SELECT()[row];
-//				impl.DELETE(characters);
 				impl.DELETE(categories.getItemAt(categories.getSelectedIndex()),value.getText().toString());
 				table.setVisible(false);
 				sp.remove(table);
@@ -202,5 +274,6 @@ public class TablesFrame extends JFrame {
         });
         d.setSize(500,300);    
         d.setVisible(true);  
+	
 	}
 }

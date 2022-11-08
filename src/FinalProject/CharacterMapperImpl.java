@@ -62,6 +62,20 @@ public class CharacterMapperImpl implements CharacterMapper {
 			e.printStackTrace();
 		}
 	}
+	
+	public Characters[] EXECUTE(String query) {
+		List<Characters> list = db.executeQuery(query);
+		Characters li[] = new Characters[list.size()];
+		int x =0;
+		for(Characters i : list) {
+			li[x++]=i;
+		}
+		return li;
+		
+	}
+	public void closeConnection() {
+		db.closeDBConnection();
+	}
 }
 
 
