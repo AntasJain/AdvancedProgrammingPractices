@@ -58,11 +58,30 @@ public class SQLiteDatabaseSingleton {
 			System.out.println(e.getMessage());
 		}
 	}
-	public void deleteStatement(int value) {
+	public void deleteStatement(String cols,String value) {
 		try {
-			delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT);
-			delete.setInt(1, value);
-			
+		//	delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT);
+		//	delete.setInt(1, value);
+			if("ID".equals(cols)) {
+					delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_ID);
+					delete.setInt(1, Integer.valueOf(value));	
+			}
+			else if("FIRSTNAME".equals(cols)) {
+				delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_FIRSTNAME);
+				delete.setString(1, value);
+			}
+			else if("LASTNAME".equals(cols)) {
+				delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_LASTNAME);
+				delete.setString(1, value);
+			}
+			else if("TTILE".equals(cols)) {
+				delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_TITLE);
+				delete.setString(1, value);
+			}
+			else if("FAMILY".equals(cols)) {
+				delete = conn.prepareStatement(StringAssets.DELETE_STATEMENT_FAMILY);
+				delete.setString(1, value);
+			}
 			int deleted = delete.executeUpdate();
 			System.out.println("Deleted "+deleted+" Row(s).");
 		}

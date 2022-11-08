@@ -28,8 +28,8 @@ public class CharacterMapperImpl implements CharacterMapper {
 	}
 
 	@Override
-	public void DELETE(Characters character) {
-		db.deleteStatement(character.getId());
+	public void DELETE(String cols, String value) {
+		db.deleteStatement(cols,value);
 	}
 
 	@Override
@@ -44,7 +44,6 @@ public class CharacterMapperImpl implements CharacterMapper {
 		for(Characters i:list) {
 			li[x++]=i;
 		}
-		System.out.println(list);
 		return li;
 	}
 	public void init(){
@@ -52,7 +51,6 @@ public class CharacterMapperImpl implements CharacterMapper {
 		try {
 			jsonArray = new JSONArray(apiData.getResponse());
 		
-		System.out.println(jsonArray);
 		for(int i =0;i<jsonArray.length();i++) {
 			JSONObject obj = jsonArray.getJSONObject(i);
 			System.out.println(obj.getInt("id")+" "+obj.getString("firstName")+" "+obj.getString("lastName")+" "+obj.getString("title")+" "+obj.getString("family"));
@@ -64,5 +62,6 @@ public class CharacterMapperImpl implements CharacterMapper {
 			e.printStackTrace();
 		}
 	}
-
 }
+
+
