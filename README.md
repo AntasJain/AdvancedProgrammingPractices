@@ -11,3 +11,5 @@ Authors:
 Frontend: Developed using JAVA SWING/AWT CLASSES.
 Backend: Developed using SIMPLE JAVA CONCEPTS.
 Database Used: SQLITE.
+
+Unit Testing Using JUNIT.
