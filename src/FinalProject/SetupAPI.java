@@ -7,7 +7,7 @@ import java.net.http.HttpResponse;
 
 public class SetupAPI {
 	private static SetupAPI singleton;
-	private static String responseData;
+	private HttpResponse<String> response;
 	private SetupAPI() {
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
@@ -15,10 +15,10 @@ public class SetupAPI {
 					.header("X-RapidAPI-Key", "4117811351mshf3172028556998ep1e721bjsn0565c8bc8dc7")
 					.header("X-RapidAPI-Host", "game-of-thrones1.p.rapidapi.com")
 					.method("GET", HttpRequest.BodyPublishers.noBody()).build();
-			HttpResponse<String> response = HttpClient.newHttpClient().send(request,
+			response = HttpClient.newHttpClient().send(request,
 					HttpResponse.BodyHandlers.ofString());
-			responseData=response.body();
-			System.out.println("Response Status "+response.statusCode());
+			
+//			System.out.println("Response Status "+response.statusCode());
 			
 			
 		} catch (Exception e) {
@@ -34,7 +34,10 @@ public class SetupAPI {
 		
 	}
 	public String getResponse() {
-		return responseData;
+		return response.body();
+	}
+	public int getStatusCode() {
+		return response.statusCode();
 	}
 
 }

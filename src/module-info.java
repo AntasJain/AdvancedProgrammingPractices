@@ -10,4 +10,5 @@ module ProjectAPP {
 	requires java.json;
 	requires java.sql;
 	requires java.desktop;
+	requires junit;
 }
