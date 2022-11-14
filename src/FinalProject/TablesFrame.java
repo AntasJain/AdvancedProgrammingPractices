@@ -45,7 +45,7 @@ public class TablesFrame extends JFrame {
 					frame.setVisible(true);
 					frame.addWindowListener(new WindowAdapter() {
 						public void windowClosing(WindowEvent e) {
-							impl.closeConnection();
+							impl.closeDBConnection();
 							System.out.println("DB Connection Closed!");
 							System.exit(0);
 						}
@@ -57,9 +57,6 @@ public class TablesFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public TablesFrame() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,6 +70,12 @@ public class TablesFrame extends JFrame {
 		JLabel lblNewLabel = new JLabel("Game Of Thrones Characters Database");
 		lblNewLabel.setBounds(500, 40, 242, 16);
 		contentPane.add(lblNewLabel);
+		try {
+			impl.init();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		setTableData(impl.SELECT());
 		
 
@@ -224,6 +227,7 @@ public class TablesFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(categories.getItemAt(categories.getSelectedIndex())+" "+value.getText().toString());
 				impl.DELETE(categories.getItemAt(categories.getSelectedIndex()),value.getText().toString());
 				table.setVisible(false);
 				sp.remove(table);
