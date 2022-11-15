@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton; 
 import java.awt.event.ActionListener;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
 public class WelcomeFrame extends JFrame {
@@ -17,7 +18,20 @@ public class WelcomeFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	
+	public static void main(String args[]) {
+	EventQueue.invokeLater(new Runnable() {
+		public void run() {
+			try {
+				WelcomeFrame frame = new WelcomeFrame();
+				frame.setResizable(false);
+				frame.setVisible(true);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	});
+	}
 	public WelcomeFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -34,7 +48,7 @@ public class WelcomeFrame extends JFrame {
 		JButton btnNewButton = new JButton("Initiate Connection");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				startDB();
+				startTableUI();
 				dispose();
 			}
 		});
@@ -43,7 +57,7 @@ public class WelcomeFrame extends JFrame {
 		
 	}
 	
-	public void startDB() {
+	public void startTableUI() {
 		TablesFrame tf = new TablesFrame();
 		tf.init();
 	}
