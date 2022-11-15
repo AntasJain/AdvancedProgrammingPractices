@@ -17,9 +17,7 @@ public class SetupAPI {
 					.method("GET", HttpRequest.BodyPublishers.noBody()).build();
 			response = HttpClient.newHttpClient().send(request,
 					HttpResponse.BodyHandlers.ofString());
-			
-//			System.out.println("Response Status "+response.statusCode());
-			
+						
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());

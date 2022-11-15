@@ -12,7 +12,6 @@ public class Characters {
 	private String LASTNAME;
 	private String TITLE;
 	private String FAMILY;
-	
 	public Characters(int id, String firstName, String lastName, String title, String family) {
 		FIRSTNAME = firstName;
 		LASTNAME = lastName;

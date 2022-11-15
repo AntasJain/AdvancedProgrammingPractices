@@ -13,9 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CharacterMapperImpl implements CharacterMapper{
-	Connection conn;
-	SetupAPI apiInstance;
-	SQLIteDatabase dbInstance;
+	private Connection conn;
+	private SetupAPI apiInstance;
+	private SQLIteDatabase dbInstance;
 	private static CharacterMapperImpl obj;
 	private CharacterMapperImpl(){
 		dbInstance = new SQLIteDatabase();
@@ -91,8 +91,6 @@ public class CharacterMapperImpl implements CharacterMapper{
 			else {
 				query+="\""+oldData+"\""+";";
 			}
-			System.out.println(query);
-			System.out.println(criteria);
 			update= conn.prepareStatement(query);
 			int updated = update.executeUpdate();
 			System.out.println("Updated "+updated+" Row(s).");
